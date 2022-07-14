@@ -9,6 +9,9 @@ function hasPermission(token) {
 }
 
 
+
+
+// token 验证， 从header中获取token, 并调用业务系
 function auth(req, res, next) {
 
     console.log(util.toJsonStr(req.headers))

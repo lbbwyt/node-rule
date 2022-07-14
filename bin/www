@@ -7,6 +7,8 @@
 var app = require('../app');
 var debug = require('debug')('express-generator:server');
 var http = require('http');
+var RED = require("node-red");
+const createError = require("http-errors");
 
 /**
  * Get port from environment and store in Express.
@@ -21,13 +23,43 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+
+// 覆盖 Node-Red settings.js
+var settings = {
+  httpAdminRoot:"/red",
+  httpNodeRoot: "/api",
+  userDir:"/home/nol/.nodered/",
+  functionGlobalContext: { }    // enables global context
+};
+// 初始化Node-red 运行时
+RED.init(server,settings);
+app.use(settings.httpAdminRoot,RED.httpAdmin);
+app.use(settings.httpNodeRoot,RED.httpNode);
+
+
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+
 /**
  * Listen on provided port, on all network interfaces.
  */
-
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+RED.start();
 
 /**
  * Normalize a port into a number, string, or false.

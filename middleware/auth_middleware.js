@@ -1,4 +1,3 @@
-const util = require('../utils');
 const undici = require("undici");
 
 
@@ -9,13 +8,11 @@ var  iotHost =  global.config.data['iot_host']
 const  callAuth = async (token) => {
 
        var  url = iotHost + '/jeecg-boot/sys/token/verify?X-Access-Token=' + token
-        console.log(url)
         const {
             statusCode
         } = await  undici.request(url, {
             method: 'GET'
         });
-        console.log(statusCode)
         if (statusCode == 200 ) {
             return false
         }

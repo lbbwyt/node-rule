@@ -1,25 +1,32 @@
 const util = require('../utils');
 const {request} = require("@blueshit/request");
 const e = require("express");
+const undici = require("undici");
+
+
+var  iotHost =  global.config.data['iot_host']
 
 
 
 const  callAuth = async (token) => {
-    // const res = await request({
-    //     method: "POST",
-    //     url: "http://exmple.com/xxx",
-    //     qs: {},
-    //     body: { token: token},
-    //     json: true,
-    // });
-    // console.log("status=%s, body=%j", res.statusCode, res.body);
 
-    await  console.log("......")
-
-
-    return true
-
+       var  url = iotHost + '/jeecg-boot/sys/token/verify?X-Access-Token=' + token
+        console.log(url)
+        const {
+            statusCode
+        } = await  undici.request(url, {
+            method: 'GET'
+        });
+        console.log(statusCode)
+        if (statusCode != 200 ) {
+            return false
+        }
+        return true
 }
+
+
+
+
 
 
 async function hasPermission(token) {
@@ -39,7 +46,7 @@ async function auth(req, res, next) {
 
     console.log(util.toJsonStr(req.headers))
 
-    var token  = req.headers['host']
+    var token  = req.headers['X-Access-Token']
 
     var permission = false
 

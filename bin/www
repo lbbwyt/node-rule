@@ -1,20 +1,34 @@
 #!/usr/bin/env node
 
 /**
+ * 初始化配置
+ */
+var config = require('../config/config');
+config.init()
+global.config = config
+
+
+
+/**
  * Module dependencies.
  */
-
 var app = require('../app');
 var debug = require('debug')('express-generator:server');
 var http = require('http');
 var RED = require("node-red");
 const createError = require("http-errors");
 
+
+var port = config.data['port']
+console.log(config.data)
+if (!port) {
+   port =  normalizePort(process.env.PORT || '3000')
+}
+
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
@@ -51,6 +65,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 
 /**

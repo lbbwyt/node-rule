@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var testRouter = require('./routes/test');
+var flowRouter = require('./routes/flow');
 
 
 var auth_middleware = require('./middleware/auth_middleware');
@@ -42,5 +43,6 @@ app.use(auth_middleware.auth)
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/test',testRouter )
+app.use('/flow', flowRouter)
 
 module.exports = app;

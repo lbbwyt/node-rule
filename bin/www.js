@@ -25,6 +25,13 @@ if (!port) {
    port =  normalizePort(process.env.PORT || '3000')
 }
 
+var flowJson = config.data['flow_json']
+var userData = config.data['user_data']
+console.log(flowJson)
+console.log(userData)
+
+
+
 /**
  * Get port from environment and store in Express.
  */
@@ -40,9 +47,10 @@ var server = http.createServer(app);
 
 // 覆盖 Node-Red settings.js
 var settings = {
+  flowFile:flowJson,
   httpAdminRoot:"/red",
   httpNodeRoot: "/api",
-  userDir:"/home/nol/.nodered/",
+  userDir:userData,
   functionGlobalContext: { }    // enables global context
 };
 // 初始化Node-red 运行时

@@ -48,24 +48,6 @@ function onOff(req, res, next) {
             "detail" :  e
         })
     })
-
-
-    // //修改并重新发布流程
-    // flowService.updateFlow(list).then( r => {
-    //         res.send({
-    //             "success": true,
-    //             "detail" : r
-    //         })
-    // }
-    // ).catch(e => {
-    //     console.log(e)
-    //     res.send({
-    //         "success": false,
-    //         "detail" :  e
-    //     })
-    // })
-
-
 }
 
 exports.onOff = onOff;
